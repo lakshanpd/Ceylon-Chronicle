@@ -184,7 +184,7 @@ const LoginPopup = ({ isOpen, onClose }) => {
                     required
                   />
                 </div>
-                <div className="flex justify-end mt-10">
+                <div className="flex justify-between mt-10">
                   <button
                     type="button"
                     className="bg-gray-500 hover:bg-gray-600 text-white p-3 rounded-xl ml-2 text-sm"
