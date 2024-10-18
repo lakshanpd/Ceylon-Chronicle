@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 import LoginPopup from "./Login";
+import { CgProfile } from "react-icons/cg";
 
 function Navbar() {
   const [scrollY, setScrollY] = useState(window.scrollY);
   const [clickedTab, setClickedTab] = useState("Home");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleLoginClick = () => {
     setIsPopupOpen(true);
   };
 
   const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
+
+  const handleLogin = () => {
+    setIsLogin(true);
     setIsPopupOpen(false);
   };
 
@@ -21,6 +28,7 @@ function Navbar() {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   return (
     <div
       className={`fixed w-full flex  ${
@@ -78,16 +86,26 @@ function Navbar() {
         </button>
       </div>
       <div className="flex justify-center items-center mr-8">
-        <button
-          className=" p-3 rounded-3xl bg-lightBlue text-center hover:bg-blue-500 transition duration-200 ease-in-out"
-          onClick={handleLoginClick}
-        >
-          SignUp
-        </button>
+        {!isLogin ? (
+          <button
+            className=" p-3 rounded-3xl bg-lightBlue text-center hover:bg-blue-500 transition duration-200 ease-in-out"
+            onClick={handleLoginClick}
+          >
+            SignUp
+          </button>
+        ) : (
+          <button className="rounded-full">
+            <CgProfile size={40} />
+          </button>
+        )}
       </div>
       {/* Login Form */}
 
-      <LoginPopup isOpen={isPopupOpen} onClose={handleClosePopup} />
+      <LoginPopup
+        isOpen={isPopupOpen}
+        onClose={handleClosePopup}
+        onLogin={handleLogin}
+      />
     </div>
   );
 }

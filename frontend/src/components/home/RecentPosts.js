@@ -32,7 +32,7 @@ function RecentPosts() {
       {/* Tiles */}
       <div className="grid grid-cols-2 gap-y-10 justify-items-center">
         {recentPosts.map((post, index) => (
-          <div className="">
+          <div className="" key={index}>
             <img
               src={post.img}
               alt={index}

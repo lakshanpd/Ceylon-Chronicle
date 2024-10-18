@@ -28,4 +28,6 @@ async function run() {
     await client.close();
   }
 }
-run().catch(console.dir);
+
+// Export the client and run function
+module.exports = { client, run };

@@ -1,9 +1,63 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const LoginPopup = ({ isOpen, onClose }) => {
+const LoginPopup = ({ isOpen, onClose, onLogin }) => {
   const [showSelection, setShowSelection] = useState(true); // Manage the visibility of selection
   const [step, setStep] = useState(1); // Controls the step in the form
   const popupRef = useRef(null); // Reference to the popup container
+  const [loginData, setLoginData] = useState({
+    firstName: "",
+    lastName: "",
+    birthday: "",
+    email: "",
+    travelWith: "",
+    username: "",
+    password: "",
+  });
+  const [validateData, setValidateData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const submit = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:3001/api/register", {
+      method: "POST",
+      body: JSON.stringify(loginData),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.log(res.status);
+          throw new Error("Network response was not ok"); // Handle HTTP errors
+        }
+        return res.json(); // Parse the response JSON
+      })
+      .then((json) => console.log("login data saved successfully...", json))
+      .catch((e) => console.log(e));
+    // console.log(loginData);
+  };
+
+  const validate = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:3001/api/login", {
+      method: "POST",
+      body: JSON.stringify(validateData),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        if (res.ok) {
+          console.log("log in successfully");
+
+          onLogin();
+          return res.json();
+        }
+      })
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((e) => console.log(e));
+    console.log(validateData);
+  };
 
   // Close the popup if user clicks outside of it
   useEffect(() => {
@@ -63,6 +117,10 @@ const LoginPopup = ({ isOpen, onClose }) => {
                     type="text"
                     className="border border-black border-opacity-50 rounded-lg p-2 w-full text-sm"
                     required
+                    value={loginData.firstName}
+                    onChange={(e) =>
+                      setLoginData({ ...loginData, firstName: e.target.value })
+                    }
                   />
                 </div>
                 <div className="mb-4">
@@ -71,6 +129,10 @@ const LoginPopup = ({ isOpen, onClose }) => {
                     type="text"
                     className="border border-black border-opacity-50 rounded-lg p-2 w-full text-sm"
                     required
+                    value={loginData.lastName}
+                    onChange={(e) =>
+                      setLoginData({ ...loginData, lastName: e.target.value })
+                    }
                   />
                 </div>
                 <div className="mb-4">
@@ -79,6 +141,10 @@ const LoginPopup = ({ isOpen, onClose }) => {
                     type="date"
                     className="border border-black border-opacity-50 rounded-lg p-2 w-full text-sm"
                     required
+                    value={loginData.birthday}
+                    onChange={(e) =>
+                      setLoginData({ ...loginData, birthday: e.target.value })
+                    }
                   />
                 </div>
                 <div className="mb-4">
@@ -87,6 +153,10 @@ const LoginPopup = ({ isOpen, onClose }) => {
                     type="email"
                     className="border border-black border-opacity-50 rounded-lg p-2 w-full text-sm"
                     required
+                    value={loginData.email}
+                    onChange={(e) =>
+                      setLoginData({ ...loginData, email: e.target.value })
+                    }
                   />
                 </div>
                 <div className="mb-4">
@@ -96,6 +166,10 @@ const LoginPopup = ({ isOpen, onClose }) => {
                   <select
                     className="border border-black border-opacity-50 rounded-lg p-2 w-full text-sm"
                     required
+                    value={loginData.travelWith}
+                    onChange={(e) =>
+                      setLoginData({ ...loginData, travelWith: e.target.value })
+                    }
                   >
                     <option value="single">Single</option>
                     <option value="couple">Couple</option>
@@ -130,6 +204,10 @@ const LoginPopup = ({ isOpen, onClose }) => {
                     type="text"
                     className="border border-black border-opacity-50 rounded-lg p-2 w-full text-sm"
                     required
+                    value={loginData.username}
+                    onChange={(e) =>
+                      setLoginData({ ...loginData, username: e.target.value })
+                    }
                   />
                 </div>
                 <div className="mb-4">
@@ -138,6 +216,10 @@ const LoginPopup = ({ isOpen, onClose }) => {
                     type="password"
                     className="border border-black border-opacity-50 rounded-lg p-2 w-full text-sm"
                     required
+                    value={loginData.password}
+                    onChange={(e) =>
+                      setLoginData({ ...loginData, password: e.target.value })
+                    }
                   />
                 </div>
                 <div className="mb-4">
@@ -159,6 +241,7 @@ const LoginPopup = ({ isOpen, onClose }) => {
                   <button
                     type="submit"
                     className="bg-lightBlue hover:bg-blue-500 text-white p-3 rounded-xl text-sm"
+                    onClick={submit}
                   >
                     Login
                   </button>
@@ -174,6 +257,13 @@ const LoginPopup = ({ isOpen, onClose }) => {
                     type="text"
                     className="border border-black border-opacity-50 rounded-lg p-2 w-full text-sm"
                     required
+                    value={validateData.username}
+                    onChange={(e) =>
+                      setValidateData({
+                        ...validateData,
+                        username: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div className="mb-4">
@@ -182,6 +272,13 @@ const LoginPopup = ({ isOpen, onClose }) => {
                     type="password"
                     className="border border-black border-opacity-50 rounded-lg p-2 w-full text-sm"
                     required
+                    value={validateData.password}
+                    onChange={(e) =>
+                      setValidateData({
+                        ...validateData,
+                        password: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div className="flex justify-between mt-10">
@@ -195,6 +292,7 @@ const LoginPopup = ({ isOpen, onClose }) => {
                   <button
                     type="submit"
                     className="bg-lightBlue hover:bg-blue-500 text-white p-3 rounded-xl text-sm"
+                    onClick={validate}
                   >
                     Sign In
                   </button>

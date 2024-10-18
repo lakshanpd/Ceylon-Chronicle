@@ -61,7 +61,7 @@ function TravelGuide() {
       {/* Tiles */}
       <div className="grid sw-1250:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-y-10 sw-480:mt-24 sw-360:mt-16 justify-items-center">
         {travelGuides.slice(0, visibleGuides).map((guide, index) => (
-          <div className=" ">
+          <div className=" " key={index}>
             <img
               src={guide.img}
               alt="guide"
