@@ -4,11 +4,9 @@ import Thanks from "../components/home/Thanks";
 import TravelGuide from "../components/home/TravelGuide";
 import RecentPosts from "../components/home/RecentPosts";
 import ReviewCard from "../components/home/ReviewCard";
-import Footer from "../components/Footer";
 
 function Home() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
   const [reviews, setReviews] = useState([
     {
       firstName: "Danuka",
@@ -58,31 +56,6 @@ function Home() {
     {
       firstName: "Danuka",
       lastName: "Lakshan",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Pasindu",
-      lastName: "Lakruwan",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Bhanuka",
-      lastName: "Chathuranga",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Danuka",
-      lastName: "Lakshan",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Pasindu",
-      lastName: "Lakruwan",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Bhanuka",
-      lastName: "Chathuranga",
       comment: "This is a good blog to share our happy memories",
     },
   ]);

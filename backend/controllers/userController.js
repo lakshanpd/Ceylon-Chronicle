@@ -2,6 +2,7 @@
 
 const User = require("../models/userModel"); // assuming you have user model in models folder
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // Get all users
 exports.getAllUsers = async (req, res) => {
@@ -47,23 +48,58 @@ exports.createUser = async (req, res) => {
   }
 };
 
+// Secret key for signing the JWT (store it in environment variables in production)
+const SECRET_KEY = "your_secret_key";
 exports.validateUser = async (req, res) => {
   try {
     const { username, password } = req.body;
 
+    // Check if user exists in the database
     const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(400).json({ message: "Invalid username or password" });
     }
 
+    // Compare the password with the hashed password in the database
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid username or password" });
     }
 
-    res.status(200).json({ message: "Login successfully" });
+    // If the password is correct, generate a JWT token
+    const token = jwt.sign(
+      { id: user._id, username: user.username }, // Payload
+      SECRET_KEY, // Secret key
+      { expiresIn: "10m" } // Token expiration (10 minutes)
+    );
+    // Return the token to the client
+    res.status(200).json({
+      message: "Login successfully",
+      token, // Include the token in the response
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getMyInfo = async (req, res) => {
+  try {
+    const { id } = req.user; // `req.user` is set in the middleware after token verification
+
+    // Find user in the database by ID
+    const user = await User.findById(id).select("username email");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Return user's information
+    res.status(200).json({
+      username: user.username,
+      email: user.email,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

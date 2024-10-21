@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
+import { useAuth } from "./AuthContext";
 
-const LoginPopup = ({ isOpen, onClose, onLogin }) => {
-  const [showSelection, setShowSelection] = useState(true); // Manage the visibility of selection
+const LoginPopup = () => {
   const [step, setStep] = useState(1); // Controls the step in the form
-  const popupRef = useRef(null); // Reference to the popup container
   const [loginData, setLoginData] = useState({
     firstName: "",
     lastName: "",
@@ -17,6 +16,20 @@ const LoginPopup = ({ isOpen, onClose, onLogin }) => {
     username: "",
     password: "",
   });
+
+  const [showSelection, setShowSelection] = useState(true); // Controls form selection view
+  const popupRef = useRef(); // Reference to the popup
+
+  const { isAuthenticated, login, logout } = useAuth();
+
+  const handleSelection = (selection) => {
+    if (selection === "signup") {
+      setStep(1); // Set to the first step of signup
+    } else if (selection === "signin") {
+      setStep(3); // Set to sign-in
+    }
+    setShowSelection(false); // Hide selection options once one is chosen
+  };
 
   const submit = (e) => {
     e.preventDefault();
@@ -34,7 +47,6 @@ const LoginPopup = ({ isOpen, onClose, onLogin }) => {
       })
       .then((json) => console.log("login data saved successfully...", json))
       .catch((e) => console.log(e));
-    // console.log(loginData);
   };
 
   const validate = (e) => {
@@ -46,44 +58,16 @@ const LoginPopup = ({ isOpen, onClose, onLogin }) => {
     })
       .then((res) => {
         if (res.ok) {
-          console.log("log in successfully");
-
-          onLogin();
-          return res.json();
+          return res.json(); // Ensure to get the token
+        } else {
+          throw new Error("Login failed");
         }
       })
-      .then((json) => {
-        console.log(json);
+      .then((data) => {
+        console.log("log in successfully");
+        login(data.token); // Pass the token received from the server
       })
-      .catch((e) => console.log(e));
-    console.log(validateData);
-  };
-
-  // Close the popup if user clicks outside of it
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        onClose();
-        setShowSelection(true);
-      }
-    };
-
-    // Add event listener when the component mounts
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    // Remove the event listener when the component unmounts or when the popup is closed
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen, onClose]);
-
-  if (!isOpen) return null; // Don't render if not open
-
-  const handleSelection = (type) => {
-    setShowSelection(false); // Hide the selection popup
-    setStep(type === "signup" ? 1 : 3); // Set step based on the selection
+      .catch((e) => console.log("Error:", e));
   };
 
   return (
@@ -176,12 +160,11 @@ const LoginPopup = ({ isOpen, onClose, onLogin }) => {
                     <option value="friends">Friends</option>
                   </select>
                 </div>
-
                 <div className="flex justify-between mt-10">
                   <button
                     type="button"
                     className="bg-gray-500 hover:bg-gray-600 text-white p-3 rounded-xl"
-                    onClick={() => setShowSelection(true)} // Back to selection
+                    onClick={() => setShowSelection(true)}
                   >
                     Back
                   </button>
@@ -234,7 +217,7 @@ const LoginPopup = ({ isOpen, onClose, onLogin }) => {
                   <button
                     type="button"
                     className="bg-gray-500 hover:bg-gray-600 text-white p-3 rounded-xl ml-2 text-sm"
-                    onClick={() => setShowSelection(true)} // Go back to selection
+                    onClick={() => setShowSelection(true)}
                   >
                     Back
                   </button>
@@ -243,7 +226,7 @@ const LoginPopup = ({ isOpen, onClose, onLogin }) => {
                     className="bg-lightBlue hover:bg-blue-500 text-white p-3 rounded-xl text-sm"
                     onClick={submit}
                   >
-                    Login
+                    Sign Up
                   </button>
                 </div>
               </>
@@ -281,11 +264,11 @@ const LoginPopup = ({ isOpen, onClose, onLogin }) => {
                     }
                   />
                 </div>
-                <div className="flex justify-between mt-10">
+                <div className="flex justify-between">
                   <button
                     type="button"
                     className="bg-gray-500 hover:bg-gray-600 text-white p-3 rounded-xl ml-2 text-sm"
-                    onClick={() => setShowSelection(true)} // Go back to selection
+                    onClick={() => setShowSelection(true)}
                   >
                     Back
                   </button>
