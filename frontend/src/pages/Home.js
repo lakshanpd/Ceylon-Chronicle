@@ -4,6 +4,7 @@ import Thanks from "../components/home/Thanks";
 import TravelGuide from "../components/home/TravelGuide";
 import RecentPosts from "../components/home/RecentPosts";
 import ReviewCard from "../components/home/ReviewCard";
+import Footer from "../components/Footer";
 
 function Home() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -99,7 +100,12 @@ function Home() {
 
   return (
     <div>
-      <div className="bg-slate-500 h-[80vh]">Hello</div>
+      <img
+        src="/images/home/cover.jpg"
+        className="w-full min-h-[350px] h-auto max-h-screen object-cover overflow-hidden opacity-90"
+      />
+
+      {/* <div className="bg-slate-500 h-[80vh] bg-cover"></div> */}
 
       <div className="h-[15vh] "></div>
       {/* content */}
@@ -122,7 +128,7 @@ function Home() {
                 </span>
                 <div className="flex-grow border-t-2 border-gray-300"></div>
               </div>
-              <div className="scrollbar scrollbar-thumb-slate-500 scrollbar-track-slate-300 h-[400px] overflow-y-scroll ">
+              <div className="scrollbar scrollbar-thumb-slate-500 scrollbar-track-slate-300 h-[400px] overflow-y-scroll">
                 {reviews.map((review, index) => (
                   <ReviewCard key={index} />
                 ))}
