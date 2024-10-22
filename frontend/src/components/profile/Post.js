@@ -1,12 +1,39 @@
 import React, { useState } from "react";
+import { useAuth } from "../AuthContext";
 
 function Post() {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     topic: "",
     description: "",
     tags: [],
     images: [],
   });
+
+  const submit = (e) => {
+    e.preventDefault();
+    const { topic, tags, description, images } = formData;
+    fetch("http://localhost:3001/api/post", {
+      method: "POST",
+      body: JSON.stringify({
+        userId: user._id,
+        topic: topic,
+        tags: tags,
+        description: description,
+        images: images,
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.log(res.status);
+          throw new Error("Network response was not okkkkk"); // Handle HTTP errors
+        }
+        return res.json(); // Parse the response JSON
+      })
+      .then((json) => console.log("Your post is posted successfully", json))
+      .catch((e) => console.log(e));
+  };
 
   // Predefined tags for selection
   const availableTags = [
@@ -53,7 +80,7 @@ function Post() {
 
   return (
     <div className="w-3/4 max-w-lg p-4 border rounded-lg bg-gray-100 shadow-md font-open-sans-condensed">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={submit}>
         {/* Topic Field */}
         <div className="mb-4">
           <label

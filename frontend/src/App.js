@@ -25,6 +25,8 @@ function Main() {
   useEffect(() => {
     const checkAuthentication = () => {
       const token = localStorage.getItem("token");
+      const user = localStorage.getItem("user");
+
       console.log("token is ", token);
 
       if (!token) {
@@ -40,15 +42,18 @@ function Main() {
           console.log("Token expired");
         } else {
           console.log("Token is valid");
-          login(token);
+
+          // Parse the user data from localStorage before passing to login
+          login(token, user ? JSON.parse(user) : null); // Pass the parsed userDetails
         }
       } catch (error) {
-        console.error("Token validation error");
+        console.error("Token validation error", error);
+        logout(); // Logout on error for safety
       }
     };
 
     checkAuthentication();
-  }, [login, logout]);
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">

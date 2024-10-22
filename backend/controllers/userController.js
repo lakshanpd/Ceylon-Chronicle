@@ -74,10 +74,23 @@ exports.validateUser = async (req, res) => {
       SECRET_KEY, // Secret key
       { expiresIn: "10m" } // Token expiration (10 minutes)
     );
-    // Return the token to the client
+
+    // Prepare user data to send in response
+    const userData = {
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      birthday: user.birthday,
+      email: user.email,
+      travelWith: user.travelWith,
+      username: user.username,
+    };
+
+    // Return the token and user data to the client
     res.status(200).json({
       message: "Login successfully",
       token, // Include the token in the response
+      data: userData, // Include user details in the response
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

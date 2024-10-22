@@ -38,6 +38,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    facebook: {
+      type: String, // Facebook URL or ID
+      required: false,
+    },
+    twitter: {
+      type: String, // Twitter URL or ID
+      required: false,
+    },
   },
   {
     timestamps: true, // adds createdAt and updatedAt timestamps
