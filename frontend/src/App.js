@@ -27,25 +27,20 @@ function Main() {
       const token = localStorage.getItem("token");
       console.log("token is ", token);
 
-      // Check if token exists
       if (!token) {
         logout();
         return;
       }
 
-      // Decode the token to get its payload
       try {
         const decoded = jwtDecode(token);
-
-        // Check if token has expired (the exp field is in seconds)
         if (decoded.exp * 1000 < Date.now()) {
-          localStorage.removeItem("token"); // Remove expired token
+          localStorage.removeItem("token");
           logout();
-
           console.log("Token expired");
         } else {
           console.log("Token is valid");
-          login(token); // Pass the token to the login function
+          login(token);
         }
       } catch (error) {
         console.error("Token validation error");
@@ -53,12 +48,16 @@ function Main() {
     };
 
     checkAuthentication();
-  }, []); // Added login and logout to the dependency array
+  }, [login, logout]);
 
   return (
     <div className="flex flex-col min-h-screen">
+      {" "}
+      {/* Flexbox layout */}
       <Navbar isAuthenticated={isAuthenticated} />
-      <div className="flex-grow">
+      <div className="flex-grow pb-20">
+        {" "}
+        {/* Main content with padding bottom */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
@@ -69,9 +68,10 @@ function Main() {
               </ProtectedRoute>
             }
           />
+          <Route path="/test" element={<Profile />} />
         </Routes>
       </div>
-      <Footer /> {/* Footer at the bottom */}
+      <Footer /> {/* Footer stays at the bottom */}
     </div>
   );
 }
