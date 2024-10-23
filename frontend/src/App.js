@@ -9,6 +9,8 @@ import { jwtDecode } from "jwt-decode";
 import { AuthProvider, useAuth } from "./components/AuthContext";
 import { useEffect } from "react";
 import Blog from "./pages/Blog";
+import ChatCard from "./components/community/ChatCard";
+import Community from "./pages/Community";
 
 function App() {
   return (
@@ -70,6 +72,7 @@ function Main() {
             }
           />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/community" element={<Community />} />
         </Routes>
       </div>
       <Footer /> {/* Footer stays at the bottom */}

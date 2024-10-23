@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes"); // Import user routes
 const postRoutes = require("./routes/postRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 
 const app = express();
 
@@ -25,6 +26,7 @@ mongoose
 // Use user routes
 app.use("/api", userRoutes);
 app.use("/api", postRoutes);
+app.use("/api", chatRoutes);
 
 app.listen(3001, () => {
   console.log("Server is running on port 3001");

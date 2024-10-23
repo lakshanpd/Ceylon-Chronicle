@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
 import LoginPopup from "./Login";
 import { CgProfile } from "react-icons/cg";
@@ -31,11 +31,11 @@ function Navbar() {
       case "Blog":
         navigate("/blog");
         break;
-      case "About":
-        navigate("/about");
+      case "Community": // Change "About" to "Community"
+        navigate("/community");
         break;
-      case "Contact":
-        navigate("/contact");
+      case "About Us": // Change "Contact" to "About Us"
+        navigate("/about-us");
         break;
       default:
         navigate("/");
@@ -49,10 +49,10 @@ function Navbar() {
         return "Home";
       case "/blog":
         return "Blog";
-      case "/about":
-        return "About";
-      case "/contact":
-        return "Contact";
+      case "/community": // Update this path for "Community"
+        return "Community";
+      case "/about-us": // Update this path for "About Us"
+        return "About Us";
       default:
         return "Home"; // Default to "Home" if no match
     }
@@ -96,7 +96,7 @@ function Navbar() {
         />
       </div>
       <div className="flex sw-1250:gap-20 sw-480:gap-12 h-full ml-auto mr-20">
-        {["Home", "Blog", "About", "Contact"].map((tab) => (
+        {["Home", "Blog", "Community", "About Us"].map((tab) => (
           <button key={tab} onClick={() => handleTabClick(tab)}>
             <div
               className={`${
