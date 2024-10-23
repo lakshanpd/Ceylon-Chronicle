@@ -13,52 +13,10 @@ function Home() {
       lastName: "Lakshan",
       comment: "This is a good blog to share our happy memories",
     },
-    {
-      firstName: "Pasindu",
-      lastName: "Lakruwan",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Bhanuka",
-      lastName: "Chathuranga",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Danuka",
-      lastName: "Lakshan",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Pasindu",
-      lastName: "Lakruwan",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Bhanuka",
-      lastName: "Chathuranga",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Danuka",
-      lastName: "Lakshan",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Pasindu",
-      lastName: "Lakruwan",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Bhanuka",
-      lastName: "Chathuranga",
-      comment: "This is a good blog to share our happy memories",
-    },
-    {
-      firstName: "Danuka",
-      lastName: "Lakshan",
-      comment: "This is a good blog to share our happy memories",
-    },
+    // More reviews...
   ]);
+
+  const [isImageLoaded, setIsImageLoaded] = useState(false); // Loading state for the cover image
 
   useEffect(() => {
     // Function to update the state with the new width
@@ -73,43 +31,57 @@ function Home() {
 
   return (
     <div>
+      {!isImageLoaded && (
+        <div className="flex justify-center items-center h-screen">
+          {/* Placeholder or spinner while the image loads */}
+          <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-blue-500"></div>
+        </div>
+      )}
+
+      {/* Cover Image */}
       <img
         src="/images/home/cover.jpg"
-        className="w-full min-h-[350px] h-auto max-h-screen object-cover overflow-hidden opacity-90"
+        className={`w-full min-h-[350px] h-auto max-h-screen object-cover overflow-hidden opacity-90 ${
+          isImageLoaded ? "block" : "hidden" // Hide image until it loads
+        }`}
+        onLoad={() => setIsImageLoaded(true)} // Set loading state to false once the image is loaded
+        alt="Cover"
       />
 
-      {/* <div className="bg-slate-500 h-[80vh] bg-cover"></div> */}
-
-      <div className="h-[15vh] "></div>
-      {/* content */}
-      <h1>{screenWidth}</h1>
-      <div className="flex flex-col gap-32 sw-480:w-[75vw] sw-360:w-[85vw] mr-auto ml-auto">
-        <ThreeTiles />
-        <Thanks />
-        <TravelGuide />
-        <div className="grid sw-1250:grid-cols-3 sw-360:grid-cols-1gap-10">
-          <div className="sw-1250:col-span-2 ">
-            <RecentPosts />
-          </div>
-          <div className="sw-1250:col-span-1 flex justify-center items-center sw-1250:mt-0 sw-360:mt-20">
-            <div className="w-full">
-              {/* Topic */}
-              <div className="flex items-center justify-center w-full my-8 sw-1250:mb-0 sw-360:mb-10">
-                <div className="flex-grow border-t-2 border-gray-300"></div>
-                <span className="mx-8 text-lg font-bold text-center sw-1250:text-[20px] sw-360:text-[24px] font-open-sans-condensed">
-                  FAQ
-                </span>
-                <div className="flex-grow border-t-2 border-gray-300"></div>
+      {isImageLoaded && (
+        <div>
+          <div className="h-[15vh] "></div>
+          {/* Content */}
+          <h1>{screenWidth}</h1>
+          <div className="flex flex-col gap-32 sw-480:w-[75vw] sw-360:w-[85vw] mr-auto ml-auto">
+            <ThreeTiles />
+            <Thanks />
+            <TravelGuide />
+            <div className="grid sw-1250:grid-cols-3 sw-360:grid-cols-1 gap-10">
+              <div className="sw-1250:col-span-2 ">
+                <RecentPosts />
               </div>
-              <div className="scrollbar scrollbar-thumb-slate-500 scrollbar-track-slate-300 h-[400px] overflow-y-scroll">
-                {reviews.map((review, index) => (
-                  <ReviewCard key={index} />
-                ))}
+              <div className="sw-1250:col-span-1 flex justify-center items-center sw-1250:mt-0 sw-360:mt-20">
+                <div className="w-full">
+                  {/* Topic */}
+                  <div className="flex items-center justify-center w-full my-8 sw-1250:mb-0 sw-360:mb-10">
+                    <div className="flex-grow border-t-2 border-gray-300"></div>
+                    <span className="mx-8 text-lg font-bold text-center sw-1250:text-[20px] sw-360:text-[24px] font-open-sans-condensed">
+                      FAQ
+                    </span>
+                    <div className="flex-grow border-t-2 border-gray-300"></div>
+                  </div>
+                  <div className="scrollbar scrollbar-thumb-slate-500 scrollbar-track-slate-300 h-[400px] overflow-y-scroll">
+                    {reviews.map((review, index) => (
+                      <ReviewCard key={index} />
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

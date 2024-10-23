@@ -1,23 +1,61 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
 import LoginPopup from "./Login";
 import { CgProfile } from "react-icons/cg";
 import { useAuth } from "./AuthContext";
 
 function Navbar() {
   const [scrollY, setScrollY] = useState(window.scrollY);
-  const [clickedTab, setClickedTab] = useState("Home");
   const [isSignupClicked, setIsSignupClicked] = useState(false);
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation(); // Get current location
   const popupRef = useRef(null); // Create a ref for the popup
 
+  // Function to handle the signup click
   const handleSignupClicked = () => {
     setIsSignupClicked(true);
   };
 
+  // Function to handle the logo click
   const handleLogoClicked = () => {
-    navigate("/");
+    navigate("/"); // Navigate to the home page
+  };
+
+  // Handle navigation based on the clicked tab
+  const handleTabClick = (tab) => {
+    switch (tab) {
+      case "Home":
+        navigate("/");
+        break;
+      case "Blog":
+        navigate("/blog");
+        break;
+      case "About":
+        navigate("/about");
+        break;
+      case "Contact":
+        navigate("/contact");
+        break;
+      default:
+        navigate("/");
+    }
+  };
+
+  // Map location.pathname to corresponding tab name
+  const getActiveTab = () => {
+    switch (location.pathname) {
+      case "/":
+        return "Home";
+      case "/blog":
+        return "Blog";
+      case "/about":
+        return "About";
+      case "/contact":
+        return "Contact";
+      default:
+        return "Home"; // Default to "Home" if no match
+    }
   };
 
   useEffect(() => {
@@ -59,10 +97,10 @@ function Navbar() {
       </div>
       <div className="flex sw-1250:gap-20 sw-480:gap-12 h-full ml-auto mr-20">
         {["Home", "Blog", "About", "Contact"].map((tab) => (
-          <button key={tab} onClick={() => setClickedTab(tab)}>
+          <button key={tab} onClick={() => handleTabClick(tab)}>
             <div
               className={`${
-                clickedTab === tab
+                getActiveTab() === tab
                   ? `border-b-[3px] border-lightBlue text-lightBlue`
                   : null
               }`}
@@ -97,7 +135,7 @@ function Navbar() {
       {/* Login Form */}
       {isSignupClicked && (
         <div ref={popupRef}>
-          <LoginPopup />
+          <LoginPopup onClose={() => setIsSignupClicked(false)} />
         </div>
       )}
     </div>

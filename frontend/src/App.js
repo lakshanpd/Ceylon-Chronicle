@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute"; // Import ProtectedRou
 import { jwtDecode } from "jwt-decode";
 import { AuthProvider, useAuth } from "./components/AuthContext";
 import { useEffect } from "react";
+import Blog from "./pages/Blog";
 
 function App() {
   return (
@@ -68,7 +69,7 @@ function Main() {
               </ProtectedRoute>
             }
           />
-          <Route path="/test" element={<Profile />} />
+          <Route path="/blog" element={<Blog />} />
         </Routes>
       </div>
       <Footer /> {/* Footer stays at the bottom */}
