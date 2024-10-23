@@ -14,7 +14,7 @@ function ProfileCard() {
     <div className="flex w-[750px] h-[400px] bg-transparent border rounded-lg p-4 shadow-md">
       <div className="flex flex-col justify-center items-center w-1/2 text-black pt-6">
         <img
-          src="/images/profile/cat.jpg" // Update with the appropriate profile image
+          src={user.profilePicture} // Update with the appropriate profile image
           className="w-1/2 bg-white border rounded-full shadow-md p-1"
           alt="Profile"
         />

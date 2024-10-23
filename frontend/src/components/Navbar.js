@@ -8,7 +8,7 @@ function Navbar() {
   const [scrollY, setScrollY] = useState(window.scrollY);
   const [clickedTab, setClickedTab] = useState("Home");
   const [isSignupClicked, setIsSignupClicked] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const popupRef = useRef(null); // Create a ref for the popup
 
@@ -82,7 +82,15 @@ function Navbar() {
           </button>
         ) : (
           <button className="rounded-full" onClick={handleProfileClick}>
-            <CgProfile size={40} />
+            {user.profilePicture && user.profilePicture !== "" ? (
+              <img
+                src={user.profilePicture}
+                alt="Profile"
+                className="w-auto h-12 rounded-full object-cover border-2 border-lightBlue p-1"
+              />
+            ) : (
+              <CgProfile size={40} />
+            )}
           </button>
         )}
       </div>

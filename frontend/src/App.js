@@ -20,14 +20,12 @@ function App() {
 }
 
 function Main() {
-  const { isAuthenticated, login, logout } = useAuth();
+  const { isAuthenticated, login, logout, user } = useAuth();
 
   useEffect(() => {
     const checkAuthentication = () => {
       const token = localStorage.getItem("token");
-      const user = localStorage.getItem("user");
-
-      console.log("token is ", token);
+      const user_local = localStorage.getItem("user");
 
       if (!token) {
         logout();
@@ -37,14 +35,11 @@ function Main() {
       try {
         const decoded = jwtDecode(token);
         if (decoded.exp * 1000 < Date.now()) {
-          localStorage.removeItem("token");
           logout();
           console.log("Token expired");
         } else {
           console.log("Token is valid");
-
-          // Parse the user data from localStorage before passing to login
-          login(token, user ? JSON.parse(user) : null); // Pass the parsed userDetails
+          login(token, JSON.parse(user_local));
         }
       } catch (error) {
         console.error("Token validation error", error);

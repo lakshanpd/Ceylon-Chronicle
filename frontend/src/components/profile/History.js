@@ -6,7 +6,7 @@ const History = ({ posts }) => {
       {posts.map((post, index) => (
         <div className="border rounded-lg p-4 shadow-md" key={index}>
           <img
-            src={post.img}
+            src={post.images[0]}
             alt={post.topic}
             className="sw-1400:w-[320px] sw-1400:h-[235px] sw-1250:w-[300px] sw-1250:h-[220px] sw-480:w-[320px] sw-480:h-[235px] opacity-90 hover:cursor-pointer hover:opacity-80"
           />

@@ -38,11 +38,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    profilePicture: {
+      type: String, // Store image URLs or paths in an array
+      required: false,
+    },
     facebook: {
       type: String, // Facebook URL or ID
       required: false,
     },
-    twitter: {
+    instagram: {
       type: String, // Twitter URL or ID
       required: false,
     },

@@ -11,6 +11,9 @@ const LoginPopup = () => {
     travelWith: "",
     username: "",
     password: "",
+    profilePicture: "",
+    facebook: "",
+    instagram: "",
   });
   const [validateData, setValidateData] = useState({
     username: "",
@@ -40,7 +43,7 @@ const LoginPopup = () => {
     })
       .then((res) => {
         if (!res.ok) {
-          console.log(res.status);
+          console.log(JSON.stringify(loginData));
           throw new Error("Network response was not ok"); // Handle HTTP errors
         }
         return res.json(); // Parse the response JSON
@@ -66,10 +69,6 @@ const LoginPopup = () => {
       .then((data) => {
         console.log("log in successfully");
         login(data.token, data.data); // Pass the token received from the server
-        console.log(
-          "in local user data saved as ",
-          localStorage.getItem("user")
-        );
       })
       .catch((e) => console.log("Error:", e));
   };

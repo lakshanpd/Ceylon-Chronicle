@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../AuthContext";
+import { storage } from "../firebase"; // Import storage from firebase.js
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Import Firebase storage functions
 
 function Post() {
   const { user } = useAuth();
@@ -8,34 +10,12 @@ function Post() {
     description: "",
     tags: [],
     images: [],
+    imagePreviews: [], // Store image previews
   });
 
-  const submit = (e) => {
-    e.preventDefault();
-    const { topic, tags, description, images } = formData;
-    fetch("http://localhost:3001/api/post", {
-      method: "POST",
-      body: JSON.stringify({
-        userId: user._id,
-        topic: topic,
-        tags: tags,
-        description: description,
-        images: images,
-      }),
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => {
-        if (!res.ok) {
-          console.log(res.status);
-          throw new Error("Network response was not okkkkk"); // Handle HTTP errors
-        }
-        return res.json(); // Parse the response JSON
-      })
-      .then((json) => console.log("Your post is posted successfully", json))
-      .catch((e) => console.log(e));
-  };
+  const [uploading, setUploading] = useState(false); // For upload status
+  const maxImageCount = 10; // Max number of images
 
-  // Predefined tags for selection
   const availableTags = [
     "Nature",
     "Adventure",
@@ -49,33 +29,101 @@ function Post() {
     "Art",
   ];
 
+  // Function to upload images to Firebase Storage
+  const uploadImages = async (files) => {
+    setUploading(true);
+    const uploadPromises = files.map(async (file) => {
+      const imageRef = ref(storage, `posts/${user._id}/${file.name}`);
+      await uploadBytes(imageRef, file); // Upload each file
+      const url = await getDownloadURL(imageRef); // Get the file's URL after upload
+      return url;
+    });
+
+    const uploadedImages = await Promise.all(uploadPromises); // Get all image URLs
+    setUploading(false);
+    return uploadedImages;
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    const { topic, tags, description, images } = formData;
+
+    try {
+      // First, upload the images to Firebase Storage and get the URLs
+      const uploadedImagesUrls = await uploadImages(images);
+
+      // Then, submit the post with the image URLs
+      const response = await fetch("http://localhost:3001/api/post", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: user._id,
+          topic: topic,
+          tags: tags,
+          description: description,
+          images: uploadedImagesUrls, // Send image URLs instead of raw files
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        console.log(response.status);
+        throw new Error("Network response was not ok");
+      }
+
+      const json = await response.json();
+      console.log("Your post is posted successfully", json);
+    } catch (error) {
+      console.error("Error submitting post:", error);
+    }
+  };
+
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle tag selection using buttons
+  // Handle tag selection
   const handleTagClick = (tag) => {
     setFormData((prevFormData) => {
       const tags = prevFormData.tags.includes(tag)
-        ? prevFormData.tags.filter((t) => t !== tag) // Remove tag if already selected
-        : [...prevFormData.tags, tag]; // Add tag if not selected
+        ? prevFormData.tags.filter((t) => t !== tag)
+        : [...prevFormData.tags, tag];
       return { ...prevFormData, tags };
     });
   };
 
-  // Handle image uploads
+  // Handle image uploads and preview
   const handleImageChange = (e) => {
     const selectedImages = Array.from(e.target.files);
-    setFormData({ ...formData, images: selectedImages });
+    if (selectedImages.length + formData.images.length > maxImageCount) {
+      alert(`You can upload a maximum of ${maxImageCount} images.`);
+      return;
+    }
+
+    const imagePreviews = selectedImages.map((image) =>
+      URL.createObjectURL(image)
+    );
+    setFormData({
+      ...formData,
+      images: [...formData.images, ...selectedImages], // Add new images
+      imagePreviews: [...formData.imagePreviews, ...imagePreviews], // Add new previews
+    });
   };
 
-  // Handle post submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Post Submitted", formData);
-    // Add logic to send formData to server or process it here
+  // Handle image preview removal
+  const removeImage = (index) => {
+    setFormData((prevFormData) => {
+      const updatedImages = [...prevFormData.images];
+      const updatedPreviews = [...prevFormData.imagePreviews];
+      updatedImages.splice(index, 1); // Remove selected image
+      updatedPreviews.splice(index, 1); // Remove selected preview
+      return {
+        ...prevFormData,
+        images: updatedImages,
+        imagePreviews: updatedPreviews,
+      };
+    });
   };
 
   return (
@@ -119,7 +167,7 @@ function Post() {
           />
         </div>
 
-        {/* Tags Field (Using buttons for tag selection) */}
+        {/* Tags Field */}
         <div className="mb-4">
           <label className="block mb-2 text-lg font-semibold opacity-90">
             Tags
@@ -148,7 +196,7 @@ function Post() {
             className="block mb-2 text-lg font-semibold opacity-90"
             htmlFor="images"
           >
-            Add Images
+            Add Images (Max {maxImageCount})
           </label>
           <input
             type="file"
@@ -159,6 +207,27 @@ function Post() {
             multiple
             onChange={handleImageChange}
           />
+
+          {/* Display image previews */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            {formData.imagePreviews.map((preview, index) => (
+              <div key={index} className="relative">
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="w-20 h-20 object-cover rounded-lg"
+                />
+                {/* Remove button */}
+                <button
+                  type="button"
+                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6"
+                  onClick={() => removeImage(index)}
+                >
+                  X
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Post Button */}
@@ -166,8 +235,9 @@ function Post() {
           <button
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            disabled={uploading} // Disable button while uploading
           >
-            Post
+            {uploading ? "Uploading..." : "Post"}
           </button>
         </div>
       </form>

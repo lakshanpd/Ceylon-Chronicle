@@ -7,5 +7,6 @@ const authenticateToken = require("../middlewares/authenticateToken"); // Import
 router.post("/register", userController.createUser); // Route for user registration
 router.post("/login", userController.validateUser); // Route for user login
 router.get("/myinfo", authenticateToken, userController.getMyInfo); // Protected route for user info
+router.post("/updateUserDetails", userController.updateUserDetails);
 
 module.exports = router;

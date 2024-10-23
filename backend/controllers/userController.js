@@ -17,6 +17,7 @@ exports.getAllUsers = async (req, res) => {
 // Create a new user
 exports.createUser = async (req, res) => {
   try {
+    console.log("not destructured");
     const {
       firstName,
       lastName,
@@ -25,6 +26,9 @@ exports.createUser = async (req, res) => {
       travelWith,
       username,
       password,
+      profilePicture,
+      facebook,
+      instagram,
     } = req.body;
 
     const saltRounds = 10; // You can adjust the number of salt rounds
@@ -38,13 +42,34 @@ exports.createUser = async (req, res) => {
       travelWith: travelWith,
       username: username,
       password: hashedPassword,
+      profilePicture: profilePicture,
+      facebook: facebook,
+      instagram: instagram,
     };
 
     const newUser = new User(userData); // Create a new user from request body
+
     await newUser.save(); // Save the new user to the database
-    res.status(201).json(newUser);
+
+    const responseUser = {
+      _id: newUser._id, // Include the _id field
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
+      birthday: newUser.birthday,
+      email: newUser.email,
+      travelWith: newUser.travelWith,
+      username: newUser.username,
+      profilePicture: newUser.profilePicture,
+      facebook: newUser.facebook,
+      instagram: newUser.instagram,
+    };
+
+    res.status(201).json(responseUser);
   } catch (error) {
-    res.status(500).json({ message: "Error creating user", error });
+    res.status(500).json({
+      message: "Error creating user",
+      error: error.message,
+    });
   }
 };
 
@@ -72,7 +97,7 @@ exports.validateUser = async (req, res) => {
     const token = jwt.sign(
       { id: user._id, username: user.username }, // Payload
       SECRET_KEY, // Secret key
-      { expiresIn: "10m" } // Token expiration (10 minutes)
+      { expiresIn: "30m" } // Token expiration (10 minutes)
     );
 
     // Prepare user data to send in response
@@ -84,6 +109,9 @@ exports.validateUser = async (req, res) => {
       email: user.email,
       travelWith: user.travelWith,
       username: user.username,
+      profilePicture: user.profilePicture,
+      facebook: user.facebook,
+      instagram: user.instagram,
     };
 
     // Return the token and user data to the client
@@ -115,5 +143,42 @@ exports.getMyInfo = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+exports.updateUserDetails = async (req, res) => {
+  try {
+    const { _id, firstName, lastName, birthday, travelWith, profilePicture } =
+      req.body;
+    console.log(req.body);
+
+    // Construct the updated user data
+    const updatedData = {
+      firstName,
+      lastName,
+      birthday,
+      travelWith,
+      profilePicture,
+    };
+
+    // Find the user by ID and update their details
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      { $set: updatedData }, // Update only the provided fields
+      { new: true } // Return the updated user document
+    );
+
+    // Check if the user was found and updated
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Fetch the full user details after the update
+    const fullUserDetails = await User.findById(_id);
+
+    // Respond with the complete user data
+    res.status(200).json(fullUserDetails);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating user details", error });
   }
 };
