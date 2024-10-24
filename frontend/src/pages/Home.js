@@ -55,7 +55,7 @@ function Home() {
           <h1>{screenWidth}</h1>
           <div className="flex flex-col gap-32 sw-480:w-[75vw] sw-360:w-[85vw] mr-auto ml-auto">
             <ThreeTiles />
-            <Thanks />
+            <Thanks isButton={true} />
             <TravelGuide />
             <div className="grid sw-1250:grid-cols-3 sw-360:grid-cols-1 gap-10">
               <div className="sw-1250:col-span-2 ">

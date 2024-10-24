@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // Import useLocation
-import LoginPopup from "./Login";
 import { CgProfile } from "react-icons/cg";
 import { useAuth } from "./AuthContext";
 
@@ -10,7 +9,6 @@ function Navbar() {
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation(); // Get current location
-  const popupRef = useRef(null); // Create a ref for the popup
 
   // Function to handle the signup click
   const handleSignupClicked = () => {
@@ -31,10 +29,10 @@ function Navbar() {
       case "Blog":
         navigate("/blog");
         break;
-      case "Community": // Change "About" to "Community"
+      case "Community":
         navigate("/community");
         break;
-      case "About Us": // Change "Contact" to "About Us"
+      case "About Us":
         navigate("/about-us");
         break;
       default:
@@ -49,9 +47,9 @@ function Navbar() {
         return "Home";
       case "/blog":
         return "Blog";
-      case "/community": // Update this path for "Community"
+      case "/community":
         return "Community";
-      case "/about-us": // Update this path for "About Us"
+      case "/about-us":
         return "About Us";
       default:
         return "Home"; // Default to "Home" if no match
@@ -62,24 +60,21 @@ function Navbar() {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll);
 
-    // Event listener to close popup on outside click
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setIsSignupClicked(false); // Close the popup
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener("mousedown", handleClickOutside); // Cleanup
     };
   }, []);
 
   const handleProfileClick = () => {
     navigate("/profile"); // Navigate to the /profile route
   };
+
+  // Redirect to /register if SignUp button is clicked
+  useEffect(() => {
+    if (isSignupClicked) {
+      navigate("/login"); // Redirect to /register
+    }
+  }, [isSignupClicked, navigate]);
 
   return (
     <div
@@ -132,12 +127,6 @@ function Navbar() {
           </button>
         )}
       </div>
-      {/* Login Form */}
-      {isSignupClicked && (
-        <div ref={popupRef}>
-          <LoginPopup onClose={() => setIsSignupClicked(false)} />
-        </div>
-      )}
     </div>
   );
 }

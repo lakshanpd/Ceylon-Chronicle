@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile"; // Import Profile page
 import Navbar from "./components/Navbar";
@@ -9,8 +9,10 @@ import { jwtDecode } from "jwt-decode";
 import { AuthProvider, useAuth } from "./components/AuthContext";
 import { useEffect } from "react";
 import Blog from "./pages/Blog";
-import ChatCard from "./components/community/ChatCard";
 import Community from "./pages/Community";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   return (
@@ -23,7 +25,9 @@ function App() {
 }
 
 function Main() {
-  const { isAuthenticated, login, logout, user } = useAuth();
+  const { isAuthenticated, login, logout } = useAuth();
+  const location = useLocation(); // Get the current location
+  const routesWithoutNavbarFooter = ["/login", "/register"]; // Define routes without Navbar and Footer
 
   useEffect(() => {
     const checkAuthentication = () => {
@@ -51,15 +55,22 @@ function Main() {
     };
 
     checkAuthentication();
-  }, []);
+  }, [login, logout]);
+
+  // New useEffect to scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, [location]); // Dependency array includes location
+
+  const shouldHideNavbarFooter = routesWithoutNavbarFooter.includes(
+    location.pathname
+  );
 
   return (
     <div className="flex flex-col min-h-screen">
-      {" "}
-      {/* Flexbox layout */}
-      <Navbar isAuthenticated={isAuthenticated} />
+      {/* Conditionally render Navbar */}
+      {!shouldHideNavbarFooter && <Navbar isAuthenticated={isAuthenticated} />}
       <div className="flex-grow pb-20">
-        {" "}
         {/* Main content with padding bottom */}
         <Routes>
           <Route path="/" element={<Home />} />
@@ -73,9 +84,13 @@ function Main() {
           />
           <Route path="/blog" element={<Blog />} />
           <Route path="/community" element={<Community />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/about-us" element={<AboutUs />} />
         </Routes>
       </div>
-      <Footer /> {/* Footer stays at the bottom */}
+      {/* Conditionally render Footer */}
+      {!shouldHideNavbarFooter && <Footer />}
     </div>
   );
 }

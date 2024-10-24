@@ -1,4 +1,4 @@
-function Thanks() {
+function Thanks({ isButton }) {
   return (
     <div className="grid sw-1250:grid-cols-2 grid-cols-1 sw-1250:gap-28 gap-12">
       <div className="flex items-center sw-480:justify-center">
@@ -37,9 +37,11 @@ function Thanks() {
           world travel blog can help and inspire you in your own journeys as
           well!
         </p>
-        <button className="border-solid border-2 p-1 border-slate-400 font-open-sans mt-10 hover:bg-slate-800 hover:text-white transition duration-300 text-[14px]">
-          Read More...
-        </button>
+        {isButton ? (
+          <button className="border-solid border-2 p-1 border-slate-400 font-open-sans mt-10 hover:bg-slate-800 hover:text-white transition duration-300 text-[14px]">
+            Read More...
+          </button>
+        ) : null}
       </div>
     </div>
   );
