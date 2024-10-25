@@ -20,7 +20,7 @@ const postSchema = new mongoose.Schema(
     description: {
       type: String,
       required: true,
-      trim: true, // Trim whitespace
+      trim: false, // Trim whitespace
     },
     images: {
       type: [String], // Store image URLs or paths in an array

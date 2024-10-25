@@ -52,7 +52,7 @@ function Navbar() {
       case "/about-us":
         return "About Us";
       default:
-        return "Home"; // Default to "Home" if no match
+        return ""; // Default to "Home" if no match
     }
   };
 
@@ -84,7 +84,7 @@ function Navbar() {
     >
       <div className="w-[600px] ml-10 flex items-center">
         <img
-          src="./images/logo.jpg"
+          src="/images/logo.jpg"
           className="w-80 bg-black cursor-pointer" // Add cursor pointer for better UX
           alt="Logo"
           onClick={handleLogoClicked}

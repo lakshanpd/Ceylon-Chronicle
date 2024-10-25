@@ -13,6 +13,9 @@ import Community from "./pages/Community";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AboutUs from "./pages/AboutUs";
+import { PostProvider } from "./components/PostContext";
+import FullPost from "./components/blog/fullPost";
+import Slider from "./components/blog/slider";
 
 function App() {
   return (
@@ -27,7 +30,7 @@ function App() {
 function Main() {
   const { isAuthenticated, login, logout } = useAuth();
   const location = useLocation(); // Get the current location
-  const routesWithoutNavbarFooter = ["/login", "/register"]; // Define routes without Navbar and Footer
+  const routesWithoutNavbarFooter = ["/login", "/register", "/test"]; // Define routes without Navbar and Footer
 
   useEffect(() => {
     const checkAuthentication = () => {
@@ -82,11 +85,30 @@ function Main() {
               </ProtectedRoute>
             }
           />
-          <Route path="/blog" element={<Blog />} />
+
+          <Route
+            path="/blog"
+            element={
+              <PostProvider>
+                <Blog />
+              </PostProvider>
+            }
+          />
+
+          <Route
+            path="/blog/:postId"
+            element={
+              <PostProvider>
+                <FullPost />
+              </PostProvider>
+            }
+          />
+
           <Route path="/community" element={<Community />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/about-us" element={<AboutUs />} />
+          {/* <Route path="/test" element={<Slider />} /> */}
         </Routes>
       </div>
       {/* Conditionally render Footer */}

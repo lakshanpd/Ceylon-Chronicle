@@ -1,6 +1,6 @@
 import React from "react";
 
-const Post = ({ username, topic, tags, images }) => {
+const Post = ({ username, topic, tags, images, index, clicking }) => {
   return (
     <div className="border rounded-lg p-4 shadow-md max-w-96">
       <img
@@ -28,7 +28,10 @@ const Post = ({ username, topic, tags, images }) => {
       </div>
       {/* Action Buttons */}
       <div className="flex justify-center mt-6">
-        <button className="bg-transparent border-2 border-lightBlue px-2 py-1 rounded-lg mr-2 hover:bg-lightBlue hover:text-white text-[14px] font-semibold text-black text-opacity-80">
+        <button
+          className="bg-transparent border-2 border-lightBlue px-2 py-1 rounded-lg mr-2 hover:bg-lightBlue hover:text-white text-[14px] font-semibold text-black text-opacity-80"
+          onClick={() => clicking(index)}
+        >
           View More
         </button>
         {/* <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">

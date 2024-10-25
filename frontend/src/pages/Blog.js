@@ -1,22 +1,19 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import Post from "../components/blog/post";
+import { useNavigate } from "react-router-dom";
+import { PostContext } from "../components/PostContext"; // Adjust the path as necessary
 
 function Blog() {
-  const [allPosts, setAllPosts] = useState([]);
+  const { allPosts, loading, error } = useContext(PostContext);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch("http://localhost:3001/api/getAllPosts")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Error fetching posts");
-        }
-        return res.json();
-      })
-      .then((json) => {
-        setAllPosts(json); // Save the fetched data in state
-      })
-      .catch((err) => console.log(err)); // Log errors if any
-  }, []);
+  const handleViewMore = (index) => {
+    navigate(`/blog/${index}`);
+    console.log(allPosts);
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="flex justify-center items-center min-h-screen mt-40">
@@ -28,6 +25,8 @@ function Blog() {
               topic={post.topic}
               tags={post.tags}
               images={post.images}
+              index={index}
+              clicking={handleViewMore}
             />
           </div>
         ))}
