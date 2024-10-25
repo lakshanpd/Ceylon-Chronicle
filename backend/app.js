@@ -6,13 +6,13 @@ const postRoutes = require("./routes/postRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 
 const app = express();
+require("dotenv").config();
 
 app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-const dbURI =
-  "mongodb+srv://lakshanpdcse21:ceylonchronicle123@ceylonchroniclecluster.gschn.mongodb.net/ceylon_chronicle?retryWrites=true&w=majority&appName=CeylonChronicleCluster"; // Replace with your MongoDB connection string
+const dbURI = process.env.DB_URI; // Replace with your MongoDB connection string
 
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -28,6 +28,6 @@ app.use("/api", userRoutes);
 app.use("/api", postRoutes);
 app.use("/api", chatRoutes);
 
-app.listen(3001, () => {
-  console.log("Server is running on port 3001");
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
 });
