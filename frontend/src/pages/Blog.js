@@ -14,7 +14,6 @@ function Blog() {
       })
       .then((json) => {
         setAllPosts(json); // Save the fetched data in state
-        console.log(json);
       })
       .catch((err) => console.log(err)); // Log errors if any
   }, []);

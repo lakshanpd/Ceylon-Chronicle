@@ -22,7 +22,7 @@ function RecentPosts() {
   return (
     <div>
       {/* Topic */}
-      <div className="flex items-center justify-center w-full my-8 sw-1250:mb-0 sw-360:mb-16">
+      <div className="flex items-center justify-center w-full my-8 sw-1250:mb-10 sw-360:mb-16">
         <div className="flex-grow border-t-2 border-gray-300"></div>
         <span className="mx-8 text-lg font-bold text-center sw-1250:text-[20px] sw-480:text-[24px] font-open-sans-condensed">
           Recent Posts

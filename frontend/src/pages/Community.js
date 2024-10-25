@@ -52,7 +52,7 @@ function Community() {
         setChats(json);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [chats]);
 
   const handleShowMore = () => {
     setVisibleChats((prevVisibleChats) => prevVisibleChats + 3); // Show 3 more posts

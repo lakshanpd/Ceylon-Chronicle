@@ -55,7 +55,7 @@ function Main() {
     };
 
     checkAuthentication();
-  }, [login, logout]);
+  }, []);
 
   // New useEffect to scroll to top on route change
   useEffect(() => {

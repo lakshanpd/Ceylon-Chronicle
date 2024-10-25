@@ -8,12 +8,11 @@ function Footer() {
     <footer className="w-full">
       <div className="bg-slate-500 w-full opacity-90 grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 text-[17px] pb-5">
         <div className="hidden lg:flex flex-col pt-10 w-4/5 text-white text-opacity-90">
-          <h1 className="pl-10 ">COMPANY NAME</h1>
+          <h1 className="pl-10 ">CEYLON CHRONICLE</h1>
           <p className="text-justify mt-4 pl-10 text-[17px]">
-            HealthBot+ envisions revolutionizing healthcare with AI, providing
-            accessible, early disease detection and personalized treatment
-            insights to improve patient outcomes and promote proactive health
-            management globally.
+            Share your travel memories and connect with fellow explorers! Post
+            your adventures, view others' experiences, and engage with a vibrant
+            community. Join us in celebrating the joy of travel!
           </p>
         </div>
         <div className="flex flex-col pt-10 w-4/5 text-white text-opacity-90">
@@ -22,28 +21,28 @@ function Footer() {
           </h1>
           <div className="mt-4 pl-10 lg:text-[17px] sw-480:text-[16px] text-[15px] flex flex-col">
             <a
-              href="https://www.mayoclinic.org/diseases-conditions/melanoma/symptoms-causes/syc-20374884"
+              href="https://en.wikipedia.org/wiki/Galle"
               className="hover:text-blue-300 lg:mb-4 mb-2"
             >
-              About melanoma
+              wikipedia / Galle
             </a>
             <a
-              href="https://my.clevelandclinic.org/health/diseases/21573-skin-diseases"
+              href="https://en.wikipedia.org/wiki/Kataragama"
               className="hover:text-blue-300 lg:mb-4 mb-2"
             >
-              Skin diseases
+              wikipedia / Katharagama
             </a>
             <a
-              href="https://www.medicalnewstoday.com/articles/249141#types"
+              href="https://en.wikipedia.org/wiki/Sigiriya"
               className="hover:text-blue-300 lg:mb-4 mb-2"
             >
-              Benign vs Malignant
+              wikipedia / Sigiriya
             </a>
             <a
-              href="https://www.dhs.wisconsin.gov/skin-infection/prevention-disinfection.htm"
+              href="https://en.wikipedia.org/wiki/Colombo"
               className="hover:text-blue-300 lg:mb-4 mb-2"
             >
-              Skin disease prevention
+              wikipedia / Colombo
             </a>
           </div>
         </div>

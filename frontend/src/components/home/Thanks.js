@@ -1,4 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
 function Thanks({ isButton }) {
+  const navigate = useNavigate();
+
+  const handleButton = () => {
+    navigate("/about-us");
+  };
   return (
     <div className="grid sw-1250:grid-cols-2 grid-cols-1 sw-1250:gap-28 gap-12">
       <div className="flex items-center sw-480:justify-center">
@@ -38,7 +45,10 @@ function Thanks({ isButton }) {
           well!
         </p>
         {isButton ? (
-          <button className="border-solid border-2 p-1 border-slate-400 font-open-sans mt-10 hover:bg-slate-800 hover:text-white transition duration-300 text-[14px]">
+          <button
+            className="border-solid border-2 p-1 border-slate-400 font-open-sans mt-10 hover:bg-slate-800 hover:text-white transition duration-100 text-[14px]"
+            onClick={handleButton}
+          >
             Read More...
           </button>
         ) : null}
