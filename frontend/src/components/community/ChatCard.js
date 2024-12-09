@@ -1,6 +1,6 @@
 function ChatCard({ profilePicture, username, name, idea }) {
   return (
-    <div className="h-auto w-[750px] border-2 border-gray-400 border-opacity-40 rounded-md p-5 font-open-sans-condensed">
+    <div className="sw-480:text-[16px] text-[14px] h-auto sw-900:w-[750px] sw-480:w-[480px] sw-360:w-[350px] border-2 border-gray-400 border-opacity-40 rounded-md sw-480:p-5 p-3 font-open-sans-condensed">
       <div className="flex">
         <div className="w-[60px] h-[60px] border-2 border-gray-400 rounded-full flex items-center justify-center overflow-hidden">
           <img
@@ -11,7 +11,7 @@ function ChatCard({ profilePicture, username, name, idea }) {
         </div>
         <div className="pl-5 flex flex-col justify-center">
           <div className="font-semibold">{username}</div>
-          <div className="text-[14px]">{name}</div>
+          <div className="sw-480:text-[14px] text-[12px]">{name}</div>
         </div>
       </div>
 

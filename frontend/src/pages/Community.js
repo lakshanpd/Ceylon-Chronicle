@@ -6,7 +6,7 @@ function Community() {
   const [comment, setComment] = useState("");
   const { user, isAuthenticated } = useAuth();
   const [chats, setChats] = useState([{}]);
-  const [visibleChats, setVisibleChats] = useState(5); // Control the number of visible chats
+  const [visibleChats, setVisibleChats] = useState(5);
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -33,7 +33,7 @@ function Community() {
           throw new Error("Chat saving failed");
         }
       })
-      .then((data) => {
+      .then(() => {
         console.log("Saved chat successfully");
         setComment("");
       })
@@ -55,71 +55,77 @@ function Community() {
   }, [chats]);
 
   const handleShowMore = () => {
-    setVisibleChats((prevVisibleChats) => prevVisibleChats + 3); // Show 3 more posts
+    setVisibleChats((prevVisibleChats) => prevVisibleChats + 3);
   };
 
   const handleShowLess = () => {
-    setVisibleChats((prevVisibleChats) => Math.max(prevVisibleChats - 3, 5)); // Show 3 less posts, but minimum 5
+    setVisibleChats((prevVisibleChats) => Math.max(prevVisibleChats - 3, 5));
   };
 
   return (
-    <div className="mt-40 flex flex-col gap-10 items-center">
-      {/* Reverse the chats array to show latest messages at the top */}
-      {chats
-        .slice()
-        .reverse()
-        .slice(0, visibleChats) // Display only the number of visible chats
-        .map((chat, index) => (
-          <ChatCard
-            profilePicture={chat.profilePicture}
-            username={chat.username}
-            name={`${chat.firstName} ${chat.lastName}`}
-            idea={chat.idea}
-            key={index}
-          />
-        ))}
-      <div className="flex gap-5">
-        {visibleChats < chats.length && (
-          <button
-            onClick={handleShowMore}
-            className="bg-transparent border-2 border-lightBlue px-2 py-1 rounded-lg mr-2 hover:bg-lightBlue hover:text-white text-[14px] font-semibold text-black text-opacity-80"
-          >
-            Show More
-          </button>
-        )}
+    <div>
+      <div className="sw-480:mt-40 mt-28 flex flex-col gap-10 items-center px-4">
+        {chats
+          .slice()
+          .reverse()
+          .slice(0, visibleChats)
+          .map((chat, index) => (
+            <ChatCard
+              profilePicture={chat.profilePicture}
+              username={chat.username}
+              name={`${chat.firstName} ${chat.lastName}`}
+              idea={chat.idea}
+              key={index}
+              className="w-full max-w-[700px]"
+            />
+          ))}
+        <div className="flex gap-5">
+          {visibleChats < chats.length && (
+            <button
+              onClick={handleShowMore}
+              className="bg-transparent border-2 border-lightBlue px-2 py-1 rounded-lg hover:bg-lightBlue hover:text-white text-[14px] font-semibold"
+            >
+              Show More
+            </button>
+          )}
+          {visibleChats > 5 && (
+            <button
+              onClick={handleShowLess}
+              className="bg-transparent border-2 border-lightBlue px-2 py-1 rounded-lg hover:bg-lightBlue hover:text-white text-[14px] font-semibold"
+            >
+              Show Less
+            </button>
+          )}
+        </div>
 
-        {visibleChats > 5 && (
-          <button
-            onClick={handleShowLess}
-            className="bg-transparent border-2 border-lightBlue px-2 py-1 rounded-lg mr-2 hover:bg-lightBlue hover:text-white text-[14px] font-semibold text-black text-opacity-80"
-          >
-            Show Less
-          </button>
+        {isAuthenticated ? (
+          <div className="w-full sw-900:max-w-[750px] max-w-[600px]">
+            <form
+              onSubmit={submitChat}
+              className="mt-5 flex flex-col gap-4 w-full"
+            >
+              <textarea
+                value={comment}
+                onChange={handleCommentChange}
+                placeholder="Add your comment here..."
+                className="border rounded-lg p-2 w-full h-[100px] resize-none"
+              />
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  className="bg-lightBlue px-2 py-1 rounded-lg hover:bg-blue-400 text-[14px] font-semibold text-black text-opacity-80 w-20"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        ) : (
+          <div className="sw-480:text-xl text-lg font-bold text-black text-opacity-70 sw-480:mt-10 mt-5">
+            Register to our blog for adding your ideas here!
+          </div>
         )}
       </div>
-
-      {isAuthenticated ? (
-        <div className="w-[750px]">
-          <form onSubmit={submitChat} className="mt-5 flex items-end w-full">
-            <textarea
-              value={comment}
-              onChange={handleCommentChange}
-              placeholder="Add your comment here..."
-              className="border rounded-lg p-2 w-full h-[100px] resize-none"
-            />
-            <button
-              type="submit"
-              className="bg-lightBlue ml-6 px-2 py-1 rounded-lg mr-2 hover:bg-blue-400 text-[14px] font-semibold text-black text-opacity-80"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      ) : (
-        <div className="text-xl font-open-sans-condensed font-bold text-black text-opacity-70 mt-10">
-          Register to our blog for adding your ideas here!
-        </div>
-      )}
     </div>
   );
 }
