@@ -76,7 +76,14 @@ function Main() {
       <div className="flex-grow pb-20">
         {/* Main content with padding bottom */}
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <PostProvider>
+                <Home />
+              </PostProvider>
+            }
+          />
           <Route
             path="/profile"
             element={

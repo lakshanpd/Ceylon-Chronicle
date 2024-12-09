@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PostContext } from "../PostContext";
 import Slider from "./slider";
 
@@ -7,6 +7,12 @@ function FullPost() {
   const { postId } = useParams();
   const { allPosts, loading, error } = useContext(PostContext);
   const [post, setPost] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleBackButton = () => {
+    navigate("/blog");
+  };
 
   useEffect(() => {
     // Convert postId to an integer and find the post only when allPosts are loaded
@@ -35,14 +41,22 @@ function FullPost() {
           </div>
         </div>
 
-        <div className="sw-480:w-4/6 w-5/6 text-justify sw-480:text-[16px] text-[14px] font-open-sans">
+        <div className="sw-480:w-4/6 w-5/6 text-justify sw-480:text-[16px] text-[13px] font-open-sans">
           {post.description}
         </div>
-        <div className="flex sw-480:w-4/6 w-5/6 items-start font-semibold text-black text-opacity-80">
+        <div className="flex sw-480:w-4/6 w-5/6 items-start font-semibold text-black text-opacity-80 sw-480:text-[16px] text-[13px]">
           <div>Tags : </div>
           {post.tags.map((tag, index) => (
             <div className="pl-4">{tag}</div>
           ))}
+        </div>
+        <div className="flex sw-480:justify-center justify-end w-4/5">
+          <button
+            className="border-solid border-2 p-1 border-slate-400 font-open-sans mt-6 hover:bg-slate-800 hover:text-white transition duration-300 text-[12px]"
+            onClick={handleBackButton}
+          >
+            Back to blog
+          </button>
         </div>
       </div>
     </div>

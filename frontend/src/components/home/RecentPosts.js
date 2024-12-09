@@ -1,24 +1,26 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { PostContext } from "../PostContext";
+import { useNavigate } from "react-router-dom";
 
 function RecentPosts() {
-  const [recentPosts, setRecentPosts] = useState([
-    {
-      img: "/images/home/sigiriya.jpg",
-      topic: "GUID TO TRAVEL SIGIRIYA",
-    },
-    {
-      img: "/images/home/gallefort.jpg",
-      topic: "HISTORY OF GALLE FORT",
-    },
-    {
-      img: "/images/home/nilaweli.jpg",
-      topic: "NILAWELI BEACH SIDE",
-    },
-    {
-      img: "/images/home/sigiriya.jpg",
-      topic: "GUID TO TRAVEL SIGIRIYA",
-    },
-  ]);
+  const { allPosts, loading, error } = useContext(PostContext);
+  const navigate = useNavigate();
+
+  const handleViewMore = (index) => {
+    navigate(`/blog/${index}`);
+    console.log(allPosts);
+  };
+
+  const handleReadMore = () => {
+    navigate("/blog");
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
+  // Get the first 4 posts
+  const recentPosts = allPosts.slice(0, 4);
+
   return (
     <div>
       {/* Topic */}
@@ -34,17 +36,20 @@ function RecentPosts() {
         {recentPosts.map((post, index) => (
           <div className="" key={index}>
             <img
-              src={post.img}
-              alt={index}
-              className="sw-1400:w-[320px] sw-1400:h-[235px] sw-1250:w-[300px] sw-1250:h-[220px] sw-480:w-[320px] sw-480:h-[235px] opacity-90 hover:cursor-pointer hover:opacity-80 "
+              src={post.images[0]}
+              alt={`Post ${index}`}
+              className="sw-1400:w-[320px] sw-1400:h-[235px] sw-1250:w-[300px] sw-1250:h-[220px] sw-480:w-[320px] sw-480:h-[235px] opacity-90 hover:cursor-pointer hover:opacity-80"
+              onClick={() => handleViewMore(index)}
             />
-
             <p className="text-center font-semibold pt-3">{post.topic}</p>
           </div>
         ))}
       </div>
       <div className="flex justify-center">
-        <button className="border-solid border-2 p-1 border-slate-400 font-open-sans mt-6 hover:bg-slate-800 hover:text-white transition duration-300 text-[12px]">
+        <button
+          className="border-solid border-2 p-1 border-slate-400 font-open-sans mt-6 hover:bg-slate-800 hover:text-white transition duration-300 text-[12px]"
+          onClick={handleReadMore}
+        >
           Read More...
         </button>
       </div>
