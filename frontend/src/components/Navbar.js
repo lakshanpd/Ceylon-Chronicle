@@ -128,7 +128,7 @@ function Navbar() {
                   <img
                     src={user.profilePicture}
                     alt="Profile"
-                    className="w-auto h-12 rounded-full object-cover border-2 border-lightBlue p-1"
+                    className="w-12 h-12 rounded-full object-cover border-2 border-lightBlue p-1"
                   />
                 ) : (
                   <CgProfile size={40} />

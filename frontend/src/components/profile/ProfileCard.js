@@ -15,9 +15,10 @@ function ProfileCard() {
       <div className="flex flex-col justify-center items-center w-1/2 text-black pt-6">
         <img
           src={user.profilePicture} // Update with the appropriate profile image
-          className="w-1/2 bg-white border rounded-full shadow-md p-1"
+          className="relative w-52 h-52 bg-white border-2 border-lightBlue object-cover rounded-full shadow-md p-1"
           alt="Profile"
         />
+
         <div className="mt-3 font-open-sans-condensed font-semibold text-[17px]">
           {user.username} {/* Display the user's username */}
         </div>
