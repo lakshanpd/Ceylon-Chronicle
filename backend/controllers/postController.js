@@ -44,13 +44,13 @@ exports.getAllPosts = async (req, res) => {
     // Step 2: Map over posts and fetch the user name for each post's userId
     const postsWithUser = await Promise.all(
       posts.map(async (post) => {
-        const user = await User.findById(post.userId).select("name"); // Fetch user's name
+        const user = await User.findById(post.userId); // Fetch user's name
         return {
           postId: post._id,
           userId: post.userId,
-          userName: user ? user.username : "Unknown", // Handle case if user is not found
-          firstName: user ? user.firstName : "Unknown",
-          lastName: user ? user.lastName : "Unknown",
+          userName: user.username, // Handle case if user is not found
+          firstName: user.firstName,
+          lastName: user.lastName,
           topic: post.topic,
           images: post.images,
           description: post.description,

@@ -21,7 +21,7 @@ function Blog() {
         {allPosts.map((post, index) => (
           <div key={index}>
             <Post
-              username={post.userId}
+              username={post.firstName + " " + post.lastName}
               topic={post.topic}
               tags={post.tags}
               images={post.images}

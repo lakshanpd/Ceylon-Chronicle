@@ -25,9 +25,14 @@ function FullPost() {
     <div className="flex justify-center font-open-sans-condensed">
       <div className=" text-black mt-40 mb-40 flex flex-col items-center gap-6 w-4/5">
         <Slider imgs={post.images} />
+        <div className="flex flex-col text-center gap-2">
+          <div className="text-[28px] text-black text-opacity-70 font-bold">
+            {post.topic}
+          </div>
 
-        <div className="text-[28px] text-black text-opacity-70 font-bold">
-          {post.topic}
+          <div className="text-[16px] text-black text-opacity-70 font-semibold font-open-sans">
+            posted by: {post.firstName + " " + post.lastName}
+          </div>
         </div>
 
         <div className="w-4/6 text-justify text-[16px] font-open-sans">

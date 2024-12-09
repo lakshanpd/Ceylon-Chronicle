@@ -12,6 +12,7 @@ export const PostProvider = ({ children }) => {
     const fetchPosts = async () => {
       try {
         const response = await fetch("http://localhost:3001/api/getAllPosts");
+
         if (!response.ok) {
           throw new Error("Error fetching posts");
         }
