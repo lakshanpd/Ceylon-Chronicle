@@ -86,7 +86,7 @@ function Home() {
         <div>
           <div className="h-[15vh] "></div>
           {/* Content */}
-          {/* <h1>{screenWidth}</h1> */}
+          <h1>{screenWidth}</h1>
           <div className="flex flex-col gap-32 sw-480:w-[75vw] sw-360:w-[85vw] mr-auto ml-auto">
             <ThreeTiles />
             <Thanks isButton={true} />

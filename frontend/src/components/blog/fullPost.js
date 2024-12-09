@@ -23,22 +23,22 @@ function FullPost() {
 
   return (
     <div className="flex justify-center font-open-sans-condensed">
-      <div className=" text-black mt-40 mb-40 flex flex-col items-center gap-6 w-4/5">
+      <div className=" text-black sw-480:mt-40 mt-32 sw-480:mb-32 mb-16 flex flex-col items-center gap-6 w-4/5">
         <Slider imgs={post.images} />
         <div className="flex flex-col text-center gap-2">
-          <div className="text-[28px] text-black text-opacity-70 font-bold">
+          <div className="sw-480:text-[28px] text-[24px] text-black text-opacity-70 font-bold">
             {post.topic}
           </div>
 
-          <div className="text-[16px] text-black text-opacity-70 font-semibold font-open-sans">
+          <div className="sw-480:text-[16px] text-[12px] text-black text-opacity-70 font-semibold font-open-sans">
             posted by: {post.firstName + " " + post.lastName}
           </div>
         </div>
 
-        <div className="w-4/6 text-justify text-[16px] font-open-sans">
+        <div className="sw-480:w-4/6 w-5/6 text-justify sw-480:text-[16px] text-[14px] font-open-sans">
           {post.description}
         </div>
-        <div className="flex w-4/6 items-start font-semibold text-black text-opacity-80">
+        <div className="flex sw-480:w-4/6 w-5/6 items-start font-semibold text-black text-opacity-80">
           <div>Tags : </div>
           {post.tags.map((tag, index) => (
             <div className="pl-4">{tag}</div>

@@ -2,7 +2,7 @@ import React from "react";
 
 const Post = ({ username, topic, tags, images, index, clicking }) => {
   return (
-    <div className="border rounded-lg p-4 shadow-md max-w-96">
+    <div className="border rounded-lg p-4 shadow-md max-w-96 sw-480:mx-0 mx-3">
       <img
         src={images[0]}
         alt={topic}
