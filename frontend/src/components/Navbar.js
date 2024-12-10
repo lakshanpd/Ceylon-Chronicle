@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { useAuth } from "./AuthContext";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { FaHome, FaBlog, FaUsers, FaInfoCircle } from "react-icons/fa";
 
 function Navbar() {
   const [scrollY, setScrollY] = useState(window.scrollY);
@@ -79,13 +80,13 @@ function Navbar() {
       <div
         className={`fixed w-full flex ${
           scrollY === 0 ? `h-[80px]` : `h-[70px]`
-        } transition-all duration-200 z-50 font-open-sans-condensed font-semibold bg-gray-100`}
+        } transition-all duration-200 z-50 font-open-sans-condensed font-semibold bg-gray-100 border-b-2`}
       >
         {/* logo */}
-        <div className="w-[600px] ml-10 flex items-center">
+        <div className="w-[600px] md:ml-10 ml-6 flex items-center">
           <img
             src="/images/logo.jpg"
-            className="w-80 bg-black cursor-pointer"
+            className="md:w-80 sw-480:w-64 w-56 bg-black cursor-pointer transition-all duration-200"
             alt="Logo"
             onClick={handleLogoClicked}
           />
@@ -141,14 +142,24 @@ function Navbar() {
 
       {/* Dropdown menu for small screens */}
       {menuOpen && screenWidth <= 1280 && (
-        <div className="absolute top-[80px] w-full bg-gray-100 flex flex-col items-center z-40 shadow-md">
-          {["Home", "Blog", "Community", "About Us"].map((tab) => (
+        <div
+          className={`fixed ${
+            scrollY === 0 ? `top-[80px]` : `top-[70px]`
+          } transition-all duration-200 w-[200px] right-0 bg-gray-100 flex flex-col items-start z-40 shadow-md font-open-sans-condensed font-semibold`}
+        >
+          {[
+            { label: "Home", icon: <FaHome size={22} /> },
+            { label: "Blog", icon: <FaBlog size={22} /> },
+            { label: "Community", icon: <FaUsers size={22} /> },
+            { label: "About Us", icon: <FaInfoCircle size={22} /> },
+          ].map((tab) => (
             <button
-              key={tab}
-              className="w-full p-4 text-center border-b border-gray-300 hover:bg-slate-200"
-              onClick={() => handleTabClick(tab)}
+              key={tab.label}
+              className="w-full p-4 ml-2 flex items-center text-start border-b border-gray-300 hover:bg-slate-200"
+              onClick={() => handleTabClick(tab.label)}
             >
-              {tab}
+              <span className="mr-6 text-xl">{tab.icon}</span>
+              {tab.label}
             </button>
           ))}
           {!isAuthenticated ? (
@@ -159,12 +170,23 @@ function Navbar() {
               SignUp
             </button>
           ) : (
-            <button
-              className="w-full p-4 text-center bg-lightBlue hover:bg-blue-500 text-white transition duration-200 ease-in-out"
+            <div
+              className="w-full flex items-center justify-start p-4 ml-1 bg-gray-100 border-b border-gray-300 hover:cursor-pointer hover:bg-slate-200"
               onClick={handleProfileClick}
             >
-              My Profile
-            </button>
+              {user.profilePicture && user.profilePicture !== "" ? (
+                <img
+                  src={user.profilePicture}
+                  alt="Profile"
+                  className="w-8 h-8 rounded-full object-cover border-2 border-lightBlue mr-5"
+                />
+              ) : (
+                <CgProfile size={40} className="mr-3" />
+              )}
+              <div className="flex flex-col">
+                <span className="font-semibold">{user.username || "User"}</span>
+              </div>
+            </div>
           )}
         </div>
       )}
