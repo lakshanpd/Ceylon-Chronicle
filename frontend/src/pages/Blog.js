@@ -15,10 +15,13 @@ function Blog() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
+  // Reverse the allPosts array to show in reverse order
+  const reversedPosts = [...allPosts].reverse();
+
   return (
     <div className="flex justify-center items-center min-h-screen sw-480:mt-40 sw-360:mt-28">
       <div className="grid sw-1250:grid-cols-3 sw-900:grid-cols-2 sw-1400:gap-20 sw-1250:gap-10 sw-900:gap-20 grid-cols-1 gap-10">
-        {allPosts.map((post, index) => (
+        {reversedPosts.map((post, index) => (
           <div key={index}>
             <Post
               username={post.firstName + " " + post.lastName}

@@ -132,7 +132,7 @@ function Post() {
         {/* Topic Field */}
         <div className="mb-4">
           <label
-            className="block mb-2 text-lg font-semibold opacity-90"
+            className="block mb-2 sw-480:text-lg font-semibold opacity-90"
             htmlFor="topic"
           >
             Topic
@@ -151,7 +151,7 @@ function Post() {
         {/* Description Field */}
         <div className="mb-4">
           <label
-            className="block mb-2 text-lg font-semibold opacity-90"
+            className="block mb-2 sw-480:text-lg font-semibold opacity-90"
             htmlFor="description"
           >
             Description
@@ -169,7 +169,7 @@ function Post() {
 
         {/* Tags Field */}
         <div className="mb-4">
-          <label className="block mb-2 text-lg font-semibold opacity-90">
+          <label className="block mb-2 sw-480:text-lg font-semibold opacity-90">
             Tags
           </label>
           <div className="flex flex-wrap gap-2">
@@ -177,7 +177,7 @@ function Post() {
               <button
                 key={tag}
                 type="button"
-                className={`px-3 py-1 border rounded-full transition-colors duration-300 ${
+                className={`px-3 py-1 border sw-480:text-md text-sm rounded-full transition-colors duration-300 ${
                   formData.tags.includes(tag)
                     ? "bg-blue-500 text-white"
                     : "bg-gray-200 text-gray-800"
@@ -193,7 +193,7 @@ function Post() {
         {/* Image Upload Field */}
         <div className="mb-4">
           <label
-            className="block mb-2 text-lg font-semibold opacity-90"
+            className="block mb-2 sw-480:text-lg font-semibold opacity-90"
             htmlFor="images"
           >
             Add Images (Max {maxImageCount})
@@ -202,7 +202,7 @@ function Post() {
             type="file"
             id="images"
             name="images"
-            className="w-full p-2"
+            className="w-full p-2 sw-480:text-md text-sm"
             accept="image/*"
             multiple
             onChange={handleImageChange}
@@ -234,7 +234,7 @@ function Post() {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 sw-480:text-md text-sm"
             disabled={uploading} // Disable button while uploading
           >
             {uploading ? "Uploading..." : "Post"}

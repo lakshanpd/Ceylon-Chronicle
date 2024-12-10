@@ -18,8 +18,9 @@ function RecentPosts() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
-  // Get the first 4 posts
-  const recentPosts = allPosts.slice(0, 4);
+  // Get the last 4 posts
+  const recentPosts = allPosts.slice(-4);
+  const reversedPosts = [...recentPosts].reverse();
 
   return (
     <div>
@@ -33,7 +34,7 @@ function RecentPosts() {
       </div>
       {/* Tiles */}
       <div className="grid sw-900:grid-cols-2 sw-360:grid-cols-1 gap-y-10 justify-items-center">
-        {recentPosts.map((post, index) => (
+        {reversedPosts.map((post, index) => (
           <div className="" key={index}>
             <img
               src={post.images[0]}
