@@ -65,11 +65,11 @@ function Profile() {
   };
 
   return (
-    <div className="mt-40 flex flex-col items-center">
+    <div className="sw-480:mt-40 mt-32 flex flex-col items-center">
       <ProfileCard />
-      <div className="h-20"></div>
+      <div className="sw-480:h-20 h-14"></div>
       <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
-      <div className="h-20"></div>
+      <div className="sw-480:h-20 h-14"></div>
       {/* Conditionally render content based on active tab */}
       {activeTab === "POST" && <Post />} {/* Render the Post component */}
       {activeTab === "HISTORY" && <History posts={posts} />}
