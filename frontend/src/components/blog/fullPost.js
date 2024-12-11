@@ -4,7 +4,7 @@ import { PostContext } from "../PostContext";
 import Slider from "./slider";
 
 function FullPost() {
-  const { postId } = useParams();
+  const { postId } = useParams(); // postId is retrieved from the URL
   const { allPosts, loading, error } = useContext(PostContext);
   const [post, setPost] = useState(null);
 
@@ -15,10 +15,10 @@ function FullPost() {
   };
 
   useEffect(() => {
-    // Convert postId to an integer and find the post only when allPosts are loaded
-    const postIndex = parseInt(postId, 10);
     if (!loading && !error && allPosts.length > 0) {
-      setPost(allPosts[postIndex]);
+      // Find the post that matches the postId
+      const selectedPost = allPosts.find((p) => String(p.postId) === postId);
+      setPost(selectedPost || null); // Set to null if no matching post is found
     }
   }, [postId, allPosts, loading, error]);
 

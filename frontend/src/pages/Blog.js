@@ -7,8 +7,8 @@ function Blog() {
   const { allPosts, loading, error } = useContext(PostContext);
   const navigate = useNavigate();
 
-  const handleViewMore = (index) => {
-    navigate(`/blog/${allPosts.length - index - 1}`);
+  const handleViewMore = (post) => {
+    navigate(`/blog/${post.postId}`);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -28,7 +28,7 @@ function Blog() {
               tags={post.tags}
               images={post.images}
               index={index}
-              clicking={handleViewMore}
+              clicking={() => handleViewMore(post)}
             />
           </div>
         ))}
