@@ -6,9 +6,16 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 function Settings() {
   const { user, login } = useAuth();
 
+  // Format the birthday to "YYYY-MM-DD"
+  const formatDate = (date) => {
+    if (!date) return ""; // Handle null or undefined dates
+    const d = new Date(date);
+    return d.toISOString().split("T")[0]; // Extract the date part in "YYYY-MM-DD" format
+  };
+
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
-  const [birthday, setBirthday] = useState(user.birthday);
+  const [birthday, setBirthday] = useState(formatDate(user.birthday)); // Format birthday
   const [travelWith, setTravelWith] = useState(user.travelWith);
   const [profilePicture, setProfilePicture] = useState(null);
 
