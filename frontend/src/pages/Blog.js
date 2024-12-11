@@ -8,8 +8,7 @@ function Blog() {
   const navigate = useNavigate();
 
   const handleViewMore = (index) => {
-    navigate(`/blog/${index}`);
-    console.log(allPosts);
+    navigate(`/blog/${allPosts.length - index - 1}`);
   };
 
   if (loading) return <div>Loading...</div>;

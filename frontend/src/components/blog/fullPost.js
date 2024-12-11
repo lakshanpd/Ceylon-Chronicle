@@ -47,7 +47,9 @@ function FullPost() {
         <div className="flex sw-480:w-4/6 w-5/6 items-start font-semibold text-black text-opacity-80 sw-480:text-[16px] text-[13px]">
           <div>Tags : </div>
           {post.tags.map((tag, index) => (
-            <div className="pl-4">{tag}</div>
+            <div className="pl-4" key={index}>
+              {tag}
+            </div>
           ))}
         </div>
         <div className="flex sw-480:justify-center justify-end w-4/5">
