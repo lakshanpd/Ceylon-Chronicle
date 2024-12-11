@@ -66,3 +66,20 @@ exports.getAllPosts = async (req, res) => {
     res.status(500).json({ error: "An error occurred while fetching posts" });
   }
 };
+
+exports.deletePost = async (req, res) => {
+  try {
+    const { postId } = req.params; // Get the post ID from the request parameters
+
+    // Find the post by ID and delete it
+    const deletedPost = await Post.findByIdAndDelete(postId);
+
+    if (!deletedPost) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    res.status(200).json({ message: "Post deleted successfully", deletedPost });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting post", error });
+  }
+};
