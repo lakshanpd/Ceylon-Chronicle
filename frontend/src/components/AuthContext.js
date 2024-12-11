@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const login = (token, userDetails) => {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userDetails));
+    // console.log("local has user: ", localStorage.getItem("user"))
     setUser(userDetails);
     setIsAuthenticated(true);
     localStorage.setItem("isAuthenticated", "true");

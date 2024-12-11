@@ -5,54 +5,61 @@ const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: true, // first name is required
+      required: true,
       trim: true,
     },
     lastName: {
       type: String,
-      required: true, // last name is required
+      required: true,
       trim: true,
     },
     birthday: {
-      type: Date, // storing the birthday as a Date
-      required: true,
+      type: Date,
+      required: false,
     },
     email: {
       type: String,
       required: true,
-      unique: true, // email should be unique
+      unique: true,
       lowercase: true,
       trim: true,
     },
     travelWith: {
-      type: String, // e.g., group, solo, family
+      type: String,
       required: false,
     },
     username: {
       type: String,
       required: true,
-      unique: true, // username should be unique
+      unique: true,
       trim: true,
     },
     password: {
       type: String,
-      required: true,
+      required: false,
     },
     profilePicture: {
-      type: String, // Store image URLs or paths in an array
+      type: String,
       required: false,
     },
     facebook: {
-      type: String, // Facebook URL or ID
+      type: String,
       required: false,
     },
     instagram: {
-      type: String, // Twitter URL or ID
+      type: String,
       required: false,
+    },
+    googleId: {
+      type: String, // Store Google ID for reference
+      unique: true,
+    },
+    googleProfilePicture: {
+      type: String, // Store Google profile picture URL
     },
   },
   {
-    timestamps: true, // adds createdAt and updatedAt timestamps
+    timestamps: true,
   }
 );
 

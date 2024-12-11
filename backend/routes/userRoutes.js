@@ -8,5 +8,6 @@ router.post("/register", userController.createUser); // Route for user registrat
 router.post("/login", userController.validateUser); // Route for user login
 router.get("/myinfo", authenticateToken, userController.getMyInfo); // Protected route for user info
 router.post("/updateUserDetails", userController.updateUserDetails);
+router.post("/googleAuthentication", userController.createOrValidateGoogleUser);
 
 module.exports = router;

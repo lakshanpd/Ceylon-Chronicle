@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const History = ({ posts, clicking }) => {
+const History = ({ posts }) => {
   const navigate = useNavigate();
 
   const handleViewMore = (post) => {
@@ -21,7 +21,6 @@ const History = ({ posts, clicking }) => {
         // Update UI after successful deletion
         alert("Post deleted successfully!");
       } else {
-        console.log(post._id);
         alert("Failed to delete the post");
       }
     } catch (error) {
@@ -30,10 +29,8 @@ const History = ({ posts, clicking }) => {
     }
   };
 
-  console.log(posts);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-      {console.log(posts)}
       {posts.map((post, index) => (
         <div
           className="border rounded-lg p-4 shadow-md max-w-96 sw-480:mx-0 mx-3"

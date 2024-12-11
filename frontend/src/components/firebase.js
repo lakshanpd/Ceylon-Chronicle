@@ -1,7 +1,7 @@
 // firebase.js
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
-import { getAuth } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAORYTm7e4CN1z0X8FROe1aArTqReXmIVo",
@@ -18,6 +18,7 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Storage
 const storage = getStorage(app);
-
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 // You can also export other Firebase services like auth if needed
-export { storage };
+export { storage, auth, googleProvider };

@@ -3,6 +3,7 @@ import { FaUser, FaLock } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useAuth } from "../components/AuthContext";
 import { useNavigate } from "react-router-dom";
+import GoogleSignInButton from "../components/GoogleSignInButton";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -114,6 +115,7 @@ function Login() {
           Don't have an account? <span className="font-bold">Register</span>
         </a>
       </div>
+      <GoogleSignInButton />
     </div>
   );
 }

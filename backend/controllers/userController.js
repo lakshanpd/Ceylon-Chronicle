@@ -182,3 +182,84 @@ exports.updateUserDetails = async (req, res) => {
     res.status(500).json({ message: "Error updating user details", error });
   }
 };
+
+// google authentication logic
+exports.createOrValidateGoogleUser = async (req, res) => {
+  try {
+    const {
+      uid, // Google user UID
+      displayName,
+      email,
+      emailVerified,
+      photoURL,
+      providerId,
+    } = req.body;
+
+    if (!email || !providerId) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const firstName = displayName.split(" ")[0];
+    const lastName = displayName.split(" ").slice(-1).join(" ");
+
+    // Check if the user already exists
+    let user = await User.findOne({ email });
+
+    if (user) {
+      // User exists, generate a token for login
+      const token = jwt.sign({ userId: user._id }, "mysecretkey123!", {
+        expiresIn: "1h", // Token expiration time
+      });
+
+      return res.status(200).json({
+        message: "Login successful",
+        token,
+        user: {
+          _id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          username: user.username,
+          email: user.email,
+          profilePicture: user.profilePicture,
+        },
+      });
+    }
+
+    // If user does not exist, create a new user
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      username: firstName,
+      googleId: providerId,
+      profilePicture: photoURL,
+    };
+
+    const newUser = new User(userData);
+    await newUser.save();
+
+    // Generate a token for the new user
+    const token = jwt.sign({ userId: newUser._id }, "mysecretkey123!", {
+      expiresIn: "1h",
+    });
+
+    return res.status(201).json({
+      message: "Account created successfully",
+      token,
+      user: {
+        _id: newUser._id,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        username: newUser.username,
+        email: newUser.email,
+        profilePicture: newUser.profilePicture,
+      },
+    });
+  } catch (error) {
+    console.error("Error in createOrValidateGoogleUser:", error);
+    res.status(500).json({
+      message: "Error processing request",
+      error: error.message,
+    });
+  }
+};

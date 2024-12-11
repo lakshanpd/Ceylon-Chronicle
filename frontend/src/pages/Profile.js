@@ -11,30 +11,6 @@ function Profile() {
   const [posts, setPosts] = useState([{}]); // State to store posts
   const { user } = useAuth();
 
-  // Sample data for posts
-  const samplePosts = [
-    {
-      img: "/images/home/about.jpg", // Replace with actual image URLs
-      topic: "My Adventure in Nature",
-      tags: ["Adventure", "Nature"],
-    },
-    {
-      img: "/images/home/sigiriya.jpg", // Replace with actual image URLs
-      topic: "Cultural Experience",
-      tags: ["Culture", "History"],
-    },
-    {
-      img: "/images/home/nilaweli.jpg", // Replace with actual image URLs
-      topic: "City Exploration",
-      tags: ["City", "Adventure"],
-    },
-    {
-      img: "/images/home/gallefort.jpg", // Replace with actual image URLs
-      topic: "Delicious Food Journey",
-      tags: ["Food", "Culture"],
-    },
-  ];
-
   useEffect(() => {
     const fetchPosts = async () => {
       try {

@@ -19,7 +19,7 @@ export const PostProvider = ({ children }) => {
         const json = await response.json();
         setAllPosts(json);
       } catch (err) {
-        setError(err.message);
+        setError("error is", err.message);
       } finally {
         setLoading(false);
       }

@@ -2,6 +2,7 @@ const Chat = require("../models/chatModel");
 
 exports.createChat = async (req, res) => {
   try {
+    console.log("backend me is ", req.body);
     const { userId, profilePicture, username, firstName, lastName, idea } =
       req.body;
 

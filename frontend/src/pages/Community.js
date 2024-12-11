@@ -13,6 +13,7 @@ function Community() {
   };
 
   const submitChat = (e) => {
+    console.log("me is", user);
     e.preventDefault();
     fetch("http://localhost:3001/api/sendChat", {
       method: "POST",

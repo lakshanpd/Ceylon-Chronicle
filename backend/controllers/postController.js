@@ -45,12 +45,13 @@ exports.getAllPosts = async (req, res) => {
     const postsWithUser = await Promise.all(
       posts.map(async (post) => {
         const user = await User.findById(post.userId); // Fetch user's name
+        console.log("heyyyycdcds");
         return {
           postId: post._id,
           userId: post.userId,
-          userName: user.username, // Handle case if user is not found
-          firstName: user.firstName,
-          lastName: user.lastName,
+          // userName: user.username, // Handle case if user is not found
+          // firstName: user.firstName,
+          // lastName: user.lastName,
           topic: post.topic,
           images: post.images,
           description: post.description,
